@@ -5,7 +5,7 @@ app.use(express.static('public/uploads'))
 import cors from 'cors'
 app.use(
   cors({
-    origin: "https://ems-client-seven.vercel.app",
+    origin: "https://ems-frontend-iota.vercel.app",
     credentials: true,
   })
 );
