@@ -5,10 +5,11 @@ app.use(express.static('public/uploads'))
 import cors from 'cors'
 app.use(
   cors({
-      origin: "https://ems-client-seven.vercel.app",
-      credentials:true
+    origin: "https://ems-client-seven.vercel.app",
+    credentials: true,
   })
 );
+
 import dotenv from 'dotenv'
 dotenv.config();
 import db from '../db.js'
