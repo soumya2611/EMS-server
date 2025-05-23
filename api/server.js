@@ -11,19 +11,19 @@ app.use(
 );
 import dotenv from 'dotenv'
 dotenv.config();
-import db from './db.js'
+import db from '../db.js'
 //calling database ⤵️
 db;
 
 const PORT = process.env.PORT;
 //Importing of all ROutes ⤵️
-import authRouter from './routes/auth.js'
-import departmentRouter from './routes/department.js'
-import EmployeeRouter from './routes/employee.js'
-import SalaryRouter from './routes/salary.js'
-import LeaveRouter from './routes/leave.js'
-import SettingRouter from './routes/setting.js'
-import DashboardRouter from './routes/dashboard.js'
+import authRouter from '../routes/auth.js'
+import departmentRouter from '../routes/department.js'
+import EmployeeRouter from '../routes/employee.js'
+import SalaryRouter from '../routes/salary.js'
+import LeaveRouter from '../routes/leave.js'
+import SettingRouter from '../routes/setting.js'
+import DashboardRouter from '../routes/dashboard.js'
 //giving end points to route ⤵️
 app.use('/api/auth',authRouter)
 app.use('/api/department', departmentRouter)
