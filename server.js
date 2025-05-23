@@ -28,6 +28,11 @@ app.use('/api/leave', LeaveRouter)
 app.use('/api/setting', SettingRouter)
 app.use('/api/dashboard', DashboardRouter)
 //backend Listining ⤵️
+
+app.get("/", (req, res) => {
+  res.send("WELCOME TO EMS SERVER...");
+});
+
 app.listen(PORT, () => {
     console.log(`running on port ${PORT}`)
 })
