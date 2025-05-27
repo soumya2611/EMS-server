@@ -1,6 +1,7 @@
 import EmployeeModel from "../models/EmployeeModel.js";
 import UserModel from "../models/UserModel.js";
 import bcrypt from "bcrypt";
+import { v2 as cloudinary } from "cloudinary";
 
 export const addEmployee = async (req, res) => {
   // console.log(req.file)
@@ -30,6 +31,7 @@ export const addEmployee = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
     const imageFile = req.file;
+    // console.log(imageFile)
     let imageURL;
     if (imageFile) {
       const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
@@ -38,6 +40,7 @@ export const addEmployee = async (req, res) => {
 
       imageURL = imageUpload.secure_url;
     }
+    // console.log(imageURL)
     const newUser = new UserModel({
       name,
       email,
@@ -62,7 +65,7 @@ export const addEmployee = async (req, res) => {
       .status(200)
       .json({ success: true, message: "employee Created Successfully" });
   } catch (error) {
-    //console.log(error)
+    // console.log(error)
     return res.status(500).json({
       message: error.message || "Internal Server Error (Employee)",
       success: false,
