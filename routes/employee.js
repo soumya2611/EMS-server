@@ -3,12 +3,12 @@ const router = express.Router();
 import { verifyUser } from "../middleware/authMiddleware.js";
 import {
   addEmployee,
-  upload,
   getEmployees,
   getEmployeeById,
   editEmployee,
   fetchEmployeesByDepId,
 } from "../controllers/employeeController.js";
+import upload from "../middleware/multer.js";
 
  router.get("/", verifyUser, getEmployees);
 router.post("/add", verifyUser, upload.single("profileImage"), addEmployee);

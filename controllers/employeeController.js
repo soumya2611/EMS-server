@@ -1,17 +1,6 @@
-import multer from "multer";
 import EmployeeModel from "../models/EmployeeModel.js";
 import UserModel from "../models/UserModel.js";
 import bcrypt from "bcrypt";
-import path from "path";
-const storage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, "public/uploads");
-  },
-  filename: (req, file, callback) => {
-    callback(null, Date.now() + path.extname(file.originalname));
-  },
-});
-export const upload = multer({ storage: storage });
 
 export const addEmployee = async (req, res) => {
   // console.log(req.file)
@@ -40,12 +29,21 @@ export const addEmployee = async (req, res) => {
     }
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
+    const imageFile = req.file;
+    let imageURL;
+    if (imageFile) {
+      const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+        resource_type: "image",
+      });
+
+      imageURL = imageUpload.secure_url;
+    }
     const newUser = new UserModel({
       name,
       email,
       role,
       password: hashPassword,
-      profileImage: req.file ? req.file.filename : "",
+      profileImage: imageURL,
     });
     const savedUser = await newUser.save();
     //console.log(savedUser)
@@ -117,12 +115,10 @@ export const editEmployee = async (req, res) => {
     }
     const user = await UserModel.findById({ _id: employee.UserId });
     if (!user) {
-      res
-        .status(404)
-        .json({
-          success: false,
-          error: "Employee Associated With User Not Found",
-        });
+      res.status(404).json({
+        success: false,
+        error: "Employee Associated With User Not Found",
+      });
     }
     const updateUser = await UserModel.findByIdAndUpdate(
       { _id: employee.UserId },
@@ -152,11 +148,9 @@ export const fetchEmployeesByDepId = async (req, res) => {
     const employee = await EmployeeModel.find({ department: id });
     return res.status(200).json({ success: true, employee });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        error: "get empbyDept.Id Internal server Error",
-      });
+    return res.status(500).json({
+      success: false,
+      error: "get empbyDept.Id Internal server Error",
+    });
   }
 };
