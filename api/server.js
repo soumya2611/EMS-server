@@ -15,6 +15,8 @@ dotenv.config();
 import db from '../db.js'
 //calling database ⤵️
 db;
+import connectCloudinary from '../config/cloudinary.js';
+connectCloudinary()
 
 const PORT = process.env.PORT;
 //Importing of all ROutes ⤵️
